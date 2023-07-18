@@ -33,7 +33,6 @@ class MainActivity : ComponentActivity() {
             Proj_3Theme {
                 Surface(modifier = Modifier.fillMaxSize(), color = Color.Black) {
                     Column(modifier = Modifier.fillMaxSize()) {
-                        // Display the "northern" image
                         Image(
                             painter = painterResource(id = R.drawable.outpost),
                             contentDescription = "Your Image",
@@ -42,7 +41,6 @@ class MainActivity : ComponentActivity() {
                                 .aspectRatio(16f / 9f)
                         )
 
-                        // Overlay the pin and its text at the bottom left
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -70,7 +68,6 @@ class MainActivity : ComponentActivity() {
                             }
                         }
 
-                        // Display the display picture and text with buttons
                         Row(
                             modifier = Modifier.padding(horizontal = 16.dp, vertical = 15.dp),
                             verticalAlignment = Alignment.CenterVertically
@@ -82,10 +79,9 @@ class MainActivity : ComponentActivity() {
 
                             Spacer(modifier = Modifier.weight(1f))
 
-                            // Buttons (Download, Like, Bookmark)
                             Row(verticalAlignment = Alignment.CenterVertically) {
                                 IconButton(
-                                    onClick = { /* Handle download button click */ },
+                                    onClick = {},
                                     modifier = Modifier.size(24.dp),
                                     content = {
                                         Image(
@@ -97,7 +93,7 @@ class MainActivity : ComponentActivity() {
                                 )
                                 Spacer(modifier = Modifier.width(8.dp))
                                 IconButton(
-                                    onClick = { /* Handle like button click */ },
+                                    onClick = {},
                                     modifier = Modifier.size(24.dp),
                                     content = {
                                         Image(
@@ -109,7 +105,7 @@ class MainActivity : ComponentActivity() {
                                 )
                                 Spacer(modifier = Modifier.width(8.dp))
                                 IconButton(
-                                    onClick = { /* Handle bookmark button click */ },
+                                    onClick = {},
                                     modifier = Modifier.size(24.dp),
                                     content = {
                                         Image(
@@ -122,7 +118,6 @@ class MainActivity : ComponentActivity() {
                             }
                         }
 
-                        // View with text in two columns
                         Row(
                             modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
                         ) {
