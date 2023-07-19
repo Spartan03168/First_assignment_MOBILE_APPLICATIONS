@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -35,7 +36,7 @@ class MainActivity : ComponentActivity() {
                     Column(modifier = Modifier.fillMaxSize()) {
                         Image(
                             painter = painterResource(id = R.drawable.outpost),
-                            contentDescription = "Your Image",
+                            contentDescription = "Future fabrication site",
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .aspectRatio(16f / 9f)
@@ -67,7 +68,12 @@ class MainActivity : ComponentActivity() {
                                 )
                             }
                         }
-
+                        Spacer(
+                            modifier = Modifier
+                                .height(1.dp)
+                                .fillMaxWidth()
+                                .background(Color.White)
+                        )
                         Row(
                             modifier = Modifier.padding(horizontal = 16.dp, vertical = 15.dp),
                             verticalAlignment = Alignment.CenterVertically
@@ -117,7 +123,12 @@ class MainActivity : ComponentActivity() {
                                 )
                             }
                         }
-
+                        Spacer(
+                            modifier = Modifier
+                                .height(1.dp)
+                                .fillMaxWidth()
+                                .background(Color.DarkGray)
+                        )
                         Row(
                             modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
                         ) {
@@ -227,6 +238,12 @@ class MainActivity : ComponentActivity() {
                                     ),
                                     modifier = Modifier.padding(bottom = 20.dp)
                                 )
+                                Spacer(
+                                    modifier = Modifier
+                                        .height(1.dp)
+                                        .fillMaxWidth()
+                                        .background(Color.DarkGray)
+                                )
                             }
                         }
                     }
@@ -265,3 +282,5 @@ fun DisplayPictureWithText(imageResId: Int, name: String) {
         )
     }
 }
+
+
