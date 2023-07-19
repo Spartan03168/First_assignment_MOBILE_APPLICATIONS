@@ -194,7 +194,7 @@ class MainActivity : ComponentActivity() {
                                     modifier = Modifier.padding(bottom = 20.dp)
                                 )
                                 Text(
-                                    text = "Distance from mother base",
+                                    text = "Distance from main facility",
                                     style = TextStyle(
                                         fontSize = 18.sp,
                                         fontWeight = FontWeight.Bold,
