@@ -20,6 +20,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.shape.ZeroCornerSize
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.IconButton
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
@@ -32,6 +33,9 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+
+
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -244,7 +248,7 @@ fun MainScreen() {
                             modifier = Modifier.padding(bottom = 4.dp)
                         )
                         Text(
-                            text = "130m long",
+                            text = "130m long, 45 meters wide",
                             style = TextStyle(
                                 fontSize = 14.sp,
                                 color = Color.White
@@ -296,12 +300,12 @@ fun MainScreen() {
                         .background(Color.DarkGray)
                 )
 
-                // Second row with three columns
+                //Second row with three columns
                 Row(
                     modifier = Modifier
                         .padding(horizontal = 16.dp, vertical = 4.dp)
                 ) {
-                    // First Column
+                    //First Column
                     Column(
                         modifier = Modifier
                             .weight(1f)
@@ -318,7 +322,7 @@ fun MainScreen() {
                             modifier = Modifier.padding(bottom = 4.dp)
                         )
                         Text(
-                            text = "130",
+                            text = "163 minimum",
                             style = TextStyle(
                                 fontSize = 14.sp,
                                 color = Color.White
@@ -327,7 +331,7 @@ fun MainScreen() {
                         )
                     }
 
-                    // Second Column
+                    //Second Column
                     Column(
                         modifier = Modifier
                             .weight(1f)
@@ -353,7 +357,7 @@ fun MainScreen() {
                         )
                     }
 
-                    // Third Column
+                    //Third Column
                     Column(
                         modifier = Modifier
                             .weight(1f)
@@ -379,22 +383,7 @@ fun MainScreen() {
                         )
                     }
                 }
-                // Dark gray line
-                Spacer(
-                    modifier = Modifier
-                        .height(1.dp)
-                        .fillMaxWidth()
-                        .background(Color.DarkGray)
-                )
-
-                // Dark gray line
-                Spacer(
-                    modifier = Modifier
-                        .height(1.dp)
-                        .fillMaxWidth()
-                        .background(Color.Red)
-                )
-
+                BubbleTextComponent(text = "keter")
             }
         }
     }
@@ -426,8 +415,28 @@ fun DisplayPictureWithText(imageResId: Int, name: String) {
     }
 }
 
-@Preview(showBackground = true)
+
+
 @Composable
-fun GreetingPreview() {
-    MainScreen()
+fun BubbleTextComponent(text: String) {
+    Column(
+        modifier = Modifier.padding(8.dp)
+    ) {
+        Button(
+            onClick = {},
+            shape = RoundedCornerShape(20.dp),
+            colors = ButtonDefaults.buttonColors(
+                contentColor = Color.White
+            ),
+        ) {
+            Text(
+                text = text,
+                style = TextStyle(
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White
+                )
+            )
+        }
+    }
 }
