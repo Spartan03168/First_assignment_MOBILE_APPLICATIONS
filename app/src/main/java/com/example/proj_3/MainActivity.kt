@@ -31,6 +31,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.ui.graphics.vector.ImageVector
 
 
 class MainActivity : ComponentActivity() {
@@ -361,34 +362,46 @@ fun ImageWithOverlayText(
     overlayTextColor: Color = Color.White,
     overlayTextBackground: Color = Color(0xAA000000)
 ) {
-    Box(modifier = modifier) {
+    Surface {
         Image(
             painter = painter,
             contentDescription = contentDescription,
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(250.dp),
             contentScale = ContentScale.Crop
         )
 
-        Text(
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
-                .background(overlayTextBackground)
-                .align(Alignment.BottomEnd)
+                .height(250.dp)
+                .padding(16.dp),
+            verticalArrangement = Arrangement.Bottom
         ) {
-            Row Icon(
-                text = overlayText,
-                style = TextStyle(
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = overlayTextColor
-                ),
-                modifier = Modifier.padding(8.dp)
-            )
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+
+                Image(
+                    painter = painterResource(id = R.drawable.ic_launcher_foreground),
+                    contentDescription = "image",
+                    modifier = Modifier.size(50.dp)
+                )
+
+                Text(
+                    text = overlayText,
+                    style = TextStyle(
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = overlayTextColor
+                    ),
+                    modifier = Modifier.padding(8.dp)
+                )
+            }
         }
     }
-}
-
+    }
 
 
 @Composable
