@@ -122,7 +122,7 @@ fun MainScreen() {
                         Text(
                             text = "Camera",
                             style = TextStyle(
-                                fontSize = 18.sp,
+                                fontSize = 14.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = Color.White
                             ),
@@ -139,7 +139,7 @@ fun MainScreen() {
                         Text(
                             text = "Focal Length",
                             style = TextStyle(
-                                fontSize = 18.sp,
+                                fontSize = 14.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = Color.White
                             ),
@@ -170,13 +170,30 @@ fun MainScreen() {
                             ),
                             modifier = Modifier.padding(bottom = 10.dp)
                         )
+                        Text(
+                            text = "Witnesses",
+                            style = TextStyle(
+                                fontSize = 14.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color.White
+                            ),
+                            modifier = Modifier.padding(bottom = 4.dp)
+                        )
+                        Text(
+                            text = "163 minimum",
+                            style = TextStyle(
+                                fontSize = 12.sp,
+                                color = Color.White
+                            ),
+                            modifier = Modifier.padding(bottom = 10.dp)
+                        )
                     }
                     Spacer(modifier = Modifier.width(16.dp))
                     Column(modifier = Modifier.weight(1f)) {
                         Text(
                             text = "Size",
                             style = TextStyle(
-                                fontSize = 18.sp,
+                                fontSize = 14.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = Color.White
                             ),
@@ -193,7 +210,7 @@ fun MainScreen() {
                         Text(
                             text = "Event code name",
                             style = TextStyle(
-                                fontSize = 18.sp,
+                                fontSize = 14.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = Color.White
                             ),
@@ -210,7 +227,7 @@ fun MainScreen() {
                         Text(
                             text = "Threat level",
                             style = TextStyle(
-                                fontSize = 18.sp,
+                                fontSize = 14.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = Color.White
                             ),
@@ -218,6 +235,23 @@ fun MainScreen() {
                         )
                         Text(
                             text = "Keter",
+                            style = TextStyle(
+                                fontSize = 12.sp,
+                                color = Color.White
+                            ),
+                            modifier = Modifier.padding(bottom = 10.dp)
+                        )
+                        Text(
+                            text = "Response",
+                            style = TextStyle(
+                                fontSize = 14.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color.White
+                            ),
+                            modifier = Modifier.padding(bottom = 10.dp)
+                        )
+                        Text(
+                            text = "Shoot on sight",
                             style = TextStyle(
                                 fontSize = 12.sp,
                                 color = Color.White
@@ -233,85 +267,6 @@ fun MainScreen() {
                         .fillMaxWidth()
                         .background(Color.DarkGray)
                 )
-
-                Row(
-                    modifier = Modifier
-                        .padding(horizontal = 16.dp, vertical = 4.dp)
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .weight(1f)
-                            .fillMaxHeight(),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Text(
-                            text = "Witnesses",
-                            style = TextStyle(
-                                fontSize = 15.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = Color.White
-                            ),
-                            modifier = Modifier.padding(bottom = 4.dp)
-                        )
-                        Text(
-                            text = "163 minimum",
-                            style = TextStyle(
-                                fontSize = 12.sp,
-                                color = Color.White
-                            ),
-                            modifier = Modifier.padding(bottom = 5.dp)
-                        )
-                    }
-                    Column(
-                        modifier = Modifier
-                            .weight(1f)
-                            .fillMaxHeight(),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Text(
-                            text = "Teams assigned",
-                            style = TextStyle(
-                                fontSize = 15.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = Color.White
-                            ),
-                            modifier = Modifier.padding(bottom = 4.dp)
-                        )
-                        Text(
-                            text = "6",
-                            style = TextStyle(
-                                fontSize = 12.sp,
-                                color = Color.White
-                            ),
-                            modifier = Modifier.padding(bottom = 5.dp)
-                        )
-                    }
-                    Column(
-                        modifier = Modifier
-                            .weight(1f)
-                            .fillMaxHeight(),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Text(
-                            text = "Response",
-                            style = TextStyle(
-                                fontSize = 15.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = Color.White
-                            ),
-                            modifier = Modifier.padding(bottom = 4.dp)
-                        )
-                        Text(
-                            text = "Shoot on site.",
-                            style = TextStyle(
-                                fontSize = 12.sp,
-                                color = Color.White
-                            ),
-                            modifier = Modifier.padding(bottom = 5.dp)
-                        )
-                    }
-                }
-
                 // Bubble Text Component at the bottom
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -397,19 +352,9 @@ fun BubbleTextComponent(text: String) {
     ) {
         Button(
             onClick = {},
-            shape = RoundedCornerShape(20.dp),
-            colors = ButtonDefaults.buttonColors(
-                contentColor = Color.White
-            ),
+            shape = RoundedCornerShape(20.dp)
         ) {
-            Text(
-                text = text,
-                style = TextStyle(
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.White
-                )
-            )
+            Text(text = text)
         }
     }
 }
