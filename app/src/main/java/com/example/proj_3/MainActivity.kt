@@ -6,9 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -19,9 +17,6 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.shape.ZeroCornerSize
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.IconButton
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.Painter
@@ -41,39 +36,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MainScreen()
-        }
-    }
-}
-
-@Composable
-fun DetailsScreen() {
-    Proj_3Theme {
-        Surface(modifier = Modifier.fillMaxSize(), color = Color.Black) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    text = "Details Screen",
-                    style = TextStyle(
-                        fontSize = 24.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White
-                    ),
-                    modifier = Modifier.padding(bottom = 16.dp)
-                )
-
-                Text(
-                    text = "This is the details screen.",
-                    style = TextStyle(
-                        fontSize = 18.sp,
-                        color = Color.White
-                    )
-                )
-            }
         }
     }
 }
@@ -265,19 +227,13 @@ fun MainScreen() {
                     }
                 }
 
-                Row(
+                Spacer(
                     modifier = Modifier
-                        .padding(horizontal = 16.dp, vertical = 4.dp)
-                ) {
-                    // Column code remains unchanged...
-                    Spacer(
-                        modifier = Modifier
-                            .height(1.dp)
-                            .fillMaxWidth()
-                            .background(Color.DarkGray)
-                    )
+                        .height(1.dp)
+                        .fillMaxWidth()
+                        .background(Color.DarkGray)
+                )
 
-                }
                 Row(
                     modifier = Modifier
                         .padding(horizontal = 16.dp, vertical = 4.dp)
@@ -303,7 +259,7 @@ fun MainScreen() {
                                 fontSize = 12.sp,
                                 color = Color.White
                             ),
-                            modifier = Modifier.padding(bottom = 10.dp)
+                            modifier = Modifier.padding(bottom = 5.dp)
                         )
                     }
                     Column(
@@ -327,7 +283,7 @@ fun MainScreen() {
                                 fontSize = 12.sp,
                                 color = Color.White
                             ),
-                            modifier = Modifier.padding(bottom = 10.dp)
+                            modifier = Modifier.padding(bottom = 5.dp)
                         )
                     }
                     Column(
@@ -351,16 +307,18 @@ fun MainScreen() {
                                 fontSize = 12.sp,
                                 color = Color.White
                             ),
-                            modifier = Modifier.padding(bottom = 10.dp)
+                            modifier = Modifier.padding(bottom = 5.dp)
                         )
                     }
                 }
 
-                // Spacer to push the bubble to the bottom
-                Spacer(modifier = Modifier.weight(1f))
-
                 // Bubble Text Component at the bottom
-                BubbleTextComponent(text = "keter")
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    BubbleTextComponent(text = "keter")
+                }
             }
         }
     }
