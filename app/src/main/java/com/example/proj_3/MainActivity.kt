@@ -24,6 +24,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.IconButton
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.semantics.Role.Companion.Button
 import androidx.compose.ui.text.TextStyle
@@ -34,7 +35,6 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,47 +78,23 @@ fun DetailsScreen() {
     }
 }
 
-
 @Composable
 fun MainScreen() {
     Proj_3Theme {
         Surface(modifier = Modifier.fillMaxSize(), color = Color.Black) {
-            Column(modifier = Modifier.fillMaxSize()) {
-                Image(
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                // Main Image with Overlay Text
+                ImageWithOverlayText(
                     painter = painterResource(id = R.drawable.scifi_wallpaper),
-                    contentDescription = "The traveller leaving the planet through a portal that formed above the amazon forrest.",
+                    contentDescription = "The traveller leaving the planet through a portal that formed above the amazon forest",
+                    overlayText = "The travellers ship",
                     modifier = Modifier
                         .fillMaxWidth()
                         .aspectRatio(16f / 9f)
                 )
-
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp)
-                        .align(Alignment.Start)
-                ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.wolf_render_robot_wallpaper),
-                            contentDescription = "Pin",
-                            modifier = Modifier.size(24.dp)
-                        )
-
-                        Text(
-                            text = "Storm breach",
-                            style = TextStyle(
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = Color.White
-                            ),
-                            modifier = Modifier.padding(start = 8.dp),
-                            color = Color(0*80000000)
-                        )
-                    }
-                }
 
                 Row(
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 15.dp),
@@ -169,12 +145,14 @@ fun MainScreen() {
                         )
                     }
                 }
+
                 Spacer(
                     modifier = Modifier
                         .height(1.dp)
                         .fillMaxWidth()
                         .background(Color.DarkGray)
                 )
+
                 Row(
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
                 ) {
@@ -287,13 +265,19 @@ fun MainScreen() {
                     }
                 }
 
-                Spacer(
+                Row(
                     modifier = Modifier
-                        .height(1.dp)
-                        .fillMaxWidth()
-                        .background(Color.DarkGray)
-                )
+                        .padding(horizontal = 16.dp, vertical = 4.dp)
+                ) {
+                    // Column code remains unchanged...
+                    Spacer(
+                        modifier = Modifier
+                            .height(1.dp)
+                            .fillMaxWidth()
+                            .background(Color.DarkGray)
+                    )
 
+                }
                 Row(
                     modifier = Modifier
                         .padding(horizontal = 16.dp, vertical = 4.dp)
@@ -371,11 +355,54 @@ fun MainScreen() {
                         )
                     }
                 }
+
+                // Spacer to push the bubble to the bottom
+                Spacer(modifier = Modifier.weight(1f))
+
+                // Bubble Text Component at the bottom
                 BubbleTextComponent(text = "keter")
             }
         }
     }
 }
+
+@Composable
+fun ImageWithOverlayText(
+    painter: Painter,
+    contentDescription: String,
+    overlayText: String,
+    modifier: Modifier = Modifier,
+    overlayTextColor: Color = Color.White,
+    overlayTextBackground: Color = Color(0xAA000000)
+) {
+    Box(modifier = modifier) {
+        Image(
+            painter = painter,
+            contentDescription = contentDescription,
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.Crop
+        )
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+                .background(overlayTextBackground)
+                .align(Alignment.BottomEnd)
+        ) {
+            Text(
+                text = overlayText,
+                style = TextStyle(
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = overlayTextColor
+                ),
+                modifier = Modifier.padding(8.dp)
+            )
+        }
+    }
+}
+
 @Composable
 fun DisplayPictureWithText(imageResId: Int, name: String) {
     Row(
@@ -404,8 +431,6 @@ fun DisplayPictureWithText(imageResId: Int, name: String) {
         )
     }
 }
-
-
 
 @Composable
 fun BubbleTextComponent(text: String) {
