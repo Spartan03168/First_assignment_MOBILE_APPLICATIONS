@@ -30,6 +30,8 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.compose.material3.MaterialTheme
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,7 +73,7 @@ fun MainScreen() {
 
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         IconButton(
-                            onClick = { /* Handle download button click */ },
+                            onClick = {},
                             modifier = Modifier.size(24.dp),
                             content = {
                                 Image(
@@ -267,6 +269,77 @@ fun MainScreen() {
                         .fillMaxWidth()
                         .background(Color.DarkGray)
                 )
+                Row(
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp, vertical = 4.dp)
+                ) {
+                    Column(
+                        modifier = Modifier.weight(1f),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = "Witnesses",
+                            style = TextStyle(
+                                fontSize = 15.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color.White
+                            ),
+                            modifier = Modifier.padding(bottom = 4.dp)
+                        )
+                        Text(
+                            text = "163 minimum",
+                            style = TextStyle(
+                                fontSize = 12.sp,
+                                color = Color.White
+                            ),
+                            modifier = Modifier.padding(bottom = 10.dp)
+                        )
+                    }
+                    Column(
+                        modifier = Modifier.weight(1f),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = "Teams assigned",
+                            style = TextStyle(
+                                fontSize = 15.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color.White
+                            ),
+                            modifier = Modifier.padding(bottom = 4.dp)
+                        )
+                        Text(
+                            text = "6",
+                            style = TextStyle(
+                                fontSize = 12.sp,
+                                color = Color.White
+                            ),
+                            modifier = Modifier.padding(bottom = 10.dp)
+                        )
+                    }
+                    Column(
+                        modifier = Modifier.weight(1f),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = "Response",
+                            style = TextStyle(
+                                fontSize = 15.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color.White
+                            ),
+                            modifier = Modifier.padding(bottom = 4.dp)
+                        )
+                        Text(
+                            text = "Shoot on site.",
+                            style = TextStyle(
+                                fontSize = 12.sp,
+                                color = Color.White
+                            ),
+                            modifier = Modifier.padding(bottom = 10.dp)
+                        )
+                    }
+                }
                 // Bubble Text Component at the bottom
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -296,14 +369,14 @@ fun ImageWithOverlayText(
             contentScale = ContentScale.Crop
         )
 
-        Box(
+        Text(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)
                 .background(overlayTextBackground)
                 .align(Alignment.BottomEnd)
         ) {
-            Text(
+            Row Icon(
                 text = overlayText,
                 style = TextStyle(
                     fontSize = 16.sp,
@@ -315,6 +388,8 @@ fun ImageWithOverlayText(
         }
     }
 }
+
+
 
 @Composable
 fun DisplayPictureWithText(imageResId: Int, name: String) {
