@@ -24,6 +24,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.IconButton
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.semantics.Role.Companion.Button
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -33,8 +34,6 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-
-
 
 
 class MainActivity : ComponentActivity() {
@@ -85,7 +84,6 @@ fun MainScreen() {
     Proj_3Theme {
         Surface(modifier = Modifier.fillMaxSize(), color = Color.Black) {
             Column(modifier = Modifier.fillMaxSize()) {
-                // Display the "northern" image
                 Image(
                     painter = painterResource(id = R.drawable.scifi_wallpaper),
                     contentDescription = "The traveller leaving the planet through a portal that formed above the amazon forrest.",
@@ -94,7 +92,6 @@ fun MainScreen() {
                         .aspectRatio(16f / 9f)
                 )
 
-                // Overlay the pin and its text at the bottom left
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -113,16 +110,16 @@ fun MainScreen() {
                         Text(
                             text = "Storm breach",
                             style = TextStyle(
-                                fontSize = 14.sp,
+                                fontSize = 16.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = Color.White
                             ),
-                            modifier = Modifier.padding(start = 8.dp)
+                            modifier = Modifier.padding(start = 8.dp),
+                            color = Color(0*80000000)
                         )
                     }
                 }
 
-                // Display the display picture and text with buttons
                 Row(
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 15.dp),
                     verticalAlignment = Alignment.CenterVertically
@@ -134,7 +131,6 @@ fun MainScreen() {
 
                     Spacer(modifier = Modifier.weight(1f))
 
-                    // Buttons (Download, Like, Bookmark)
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         IconButton(
                             onClick = { /* Handle download button click */ },
@@ -179,7 +175,6 @@ fun MainScreen() {
                         .fillMaxWidth()
                         .background(Color.DarkGray)
                 )
-                // View with text in two columns
                 Row(
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
                 ) {
@@ -196,7 +191,7 @@ fun MainScreen() {
                         Text(
                             text = "GoPro",
                             style = TextStyle(
-                                fontSize = 14.sp,
+                                fontSize = 12.sp,
                                 color = Color.White
                             ),
                             modifier = Modifier.padding(bottom = 10.dp)
@@ -213,7 +208,7 @@ fun MainScreen() {
                         Text(
                             text = "18.0mm",
                             style = TextStyle(
-                                fontSize = 14.sp,
+                                fontSize = 12.sp,
                                 color = Color.White
                             ),
                             modifier = Modifier.padding(bottom = 10.dp)
@@ -221,7 +216,7 @@ fun MainScreen() {
                         Text(
                             text = "ISO",
                             style = TextStyle(
-                                fontSize = 18.sp,
+                                fontSize = 12.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = Color.White
                             ),
@@ -250,7 +245,7 @@ fun MainScreen() {
                         Text(
                             text = "130m long, 45 meters wide",
                             style = TextStyle(
-                                fontSize = 14.sp,
+                                fontSize = 12.sp,
                                 color = Color.White
                             ),
                             modifier = Modifier.padding(bottom = 10.dp)
@@ -267,7 +262,7 @@ fun MainScreen() {
                         Text(
                             text = "The traveller",
                             style = TextStyle(
-                                fontSize = 14.sp,
+                                fontSize = 12.sp,
                                 color = Color.White
                             ),
                             modifier = Modifier.padding(bottom = 10.dp)
@@ -284,7 +279,7 @@ fun MainScreen() {
                         Text(
                             text = "Keter",
                             style = TextStyle(
-                                fontSize = 14.sp,
+                                fontSize = 12.sp,
                                 color = Color.White
                             ),
                             modifier = Modifier.padding(bottom = 10.dp)
@@ -292,7 +287,6 @@ fun MainScreen() {
                     }
                 }
 
-                // Dark gray line
                 Spacer(
                     modifier = Modifier
                         .height(1.dp)
@@ -300,12 +294,10 @@ fun MainScreen() {
                         .background(Color.DarkGray)
                 )
 
-                //Second row with three columns
                 Row(
                     modifier = Modifier
                         .padding(horizontal = 16.dp, vertical = 4.dp)
                 ) {
-                    //First Column
                     Column(
                         modifier = Modifier
                             .weight(1f)
@@ -315,7 +307,7 @@ fun MainScreen() {
                         Text(
                             text = "Witnesses",
                             style = TextStyle(
-                                fontSize = 18.sp,
+                                fontSize = 15.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = Color.White
                             ),
@@ -324,14 +316,12 @@ fun MainScreen() {
                         Text(
                             text = "163 minimum",
                             style = TextStyle(
-                                fontSize = 14.sp,
+                                fontSize = 12.sp,
                                 color = Color.White
                             ),
                             modifier = Modifier.padding(bottom = 10.dp)
                         )
                     }
-
-                    //Second Column
                     Column(
                         modifier = Modifier
                             .weight(1f)
@@ -339,25 +329,23 @@ fun MainScreen() {
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Text(
-                            text = "Downloads",
+                            text = "Teams assigned",
                             style = TextStyle(
-                                fontSize = 18.sp,
+                                fontSize = 15.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = Color.White
                             ),
                             modifier = Modifier.padding(bottom = 4.dp)
                         )
                         Text(
-                            text = "99.1K",
+                            text = "6",
                             style = TextStyle(
-                                fontSize = 14.sp,
+                                fontSize = 12.sp,
                                 color = Color.White
                             ),
                             modifier = Modifier.padding(bottom = 10.dp)
                         )
                     }
-
-                    //Third Column
                     Column(
                         modifier = Modifier
                             .weight(1f)
@@ -367,7 +355,7 @@ fun MainScreen() {
                         Text(
                             text = "Response",
                             style = TextStyle(
-                                fontSize = 18.sp,
+                                fontSize = 15.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = Color.White
                             ),
@@ -376,7 +364,7 @@ fun MainScreen() {
                         Text(
                             text = "Shoot on site.",
                             style = TextStyle(
-                                fontSize = 14.sp,
+                                fontSize = 12.sp,
                                 color = Color.White
                             ),
                             modifier = Modifier.padding(bottom = 10.dp)
@@ -400,6 +388,8 @@ fun DisplayPictureWithText(imageResId: Int, name: String) {
             modifier = Modifier
                 .size(80.dp)
                 .clip(CircleShape)
+                .fillMaxSize(),
+            contentScale = ContentScale.Crop
         )
 
         Spacer(modifier = Modifier.width(16.dp))
