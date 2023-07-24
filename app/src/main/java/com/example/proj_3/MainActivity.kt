@@ -1,5 +1,9 @@
 package com.example.proj_3
 
+
+import retrofit2.Response
+import retrofit2.http.GET
+import retrofit2.http.Query
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -32,19 +36,46 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.example.proj_3.ui.theme.MainViewModel
+import androidx.activity.viewModels
+
+data class UnsplashPhoto(
+    val id: String,
+    val description: String?,
+    val imageUrl: String,
+)
+
+interface UnsplashApiService {
+    @GET("/photos/random")
+    suspend fun getRandomPhoto(
+        @Query("client_id") apiKey: String,
+        @Query("query") query: String? = null
+    ): Response<UnsplashPhoto>
+}
+
 
 
 class MainActivity : ComponentActivity() {
+    private val viewModel: MainViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            MainScreen()
+            MainScreen(viewModel)
         }
+
+        // Fetch random photo when the activity is created
+        viewModel.getRandomPhoto()
     }
 }
 
+
+
+
+
 @Composable
-fun MainScreen() {
+fun MainScreen(viewModel: MainViewModel) {
+    val photoDetails = viewModel.photoDetails.observeAsState()
     Proj_3Theme {
         Surface(modifier = Modifier.fillMaxSize(), color = Color.Black) {
             Column(
@@ -52,14 +83,16 @@ fun MainScreen() {
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 // Main Image with Overlay Text
-                ImageWithOverlayText(
-                    painter = painterResource(id = R.drawable.scifi_wallpaper),
-                    contentDescription = "The traveller leaving the planet through a portal that formed above the amazon forest",
-                    overlayText = "The travellers ship",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .aspectRatio(16f / 9f)
-                )
+                photoDetails.value?.let { photo ->
+                    ImageWithOverlayText(
+                        painter = painterResource(id = R.drawable.your_default_image), // Use default image while API data loads
+                        contentDescription = "The traveller leaving the planet through a portal that formed above the amazon forest",
+                        overlayText = photo.description ?: "The traveller's ship", // Use the photo's description or fallback text
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .aspectRatio(16f / 9f)
+                    )
+                }
 
                 Row(
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 15.dp),
@@ -351,7 +384,7 @@ fun MainScreen() {
             }
         }
     }
-}
+
 
 @Composable
 fun ImageWithOverlayText(
@@ -392,7 +425,7 @@ fun ImageWithOverlayText(
                 Text(
                     text = overlayText,
                     style = TextStyle(
-                        fontSize = 16.sp,
+                        fontSize = 13.sp,
                         fontWeight = FontWeight.Bold,
                         color = overlayTextColor
                     ),
@@ -402,7 +435,6 @@ fun ImageWithOverlayText(
         }
     }
     }
-
 
 @Composable
 fun DisplayPictureWithText(imageResId: Int, name: String) {
