@@ -1,11 +1,10 @@
-package com.example.proj_3.ui.theme
+package com.example.proj_3
 
+import retrofit2.Response
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.proj_3.UnsplashApiService
-import com.example.proj_3.UnsplashPhoto
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

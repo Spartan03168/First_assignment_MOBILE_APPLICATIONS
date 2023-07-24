@@ -1,6 +1,6 @@
 package com.example.proj_3
 
-
+import androidx.lifecycle.viewmodel.compose.viewModel
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -14,30 +14,21 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import com.example.proj_3.ui.theme.Proj_3Theme
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.shape.ZeroCornerSize
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.semantics.Role.Companion.Button
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.ui.graphics.vector.ImageVector
-import com.example.proj_3.ui.theme.MainViewModel
 import androidx.activity.viewModels
+import androidx.compose.runtime.livedata.observeAsState
+import kotlinx.coroutines.flow.collectAsState
 
 data class UnsplashPhoto(
     val id: String,
@@ -75,7 +66,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MainScreen(viewModel: MainViewModel) {
-    val photoDetails = viewModel.photoDetails.observeAsState()
+    val photoDetails = viewModel.photoDetails.collectAsState()
     Proj_3Theme {
         Surface(modifier = Modifier.fillMaxSize(), color = Color.Black) {
             Column(
@@ -85,9 +76,10 @@ fun MainScreen(viewModel: MainViewModel) {
                 // Main Image with Overlay Text
                 photoDetails.value?.let { photo ->
                     ImageWithOverlayText(
-                        painter = painterResource(id = R.drawable.your_default_image), // Use default image while API data loads
+                        painter = painterResource(id = R.drawable.scifi_wallpaper), // Use default image while API data loads
                         contentDescription = "The traveller leaving the planet through a portal that formed above the amazon forest",
-                        overlayText = photo.description ?: "The traveller's ship", // Use the photo's description or fallback text
+                        overlayText = photo.description
+                            ?: "The traveller's ship", // Use the photo's description or fallback text
                         modifier = Modifier
                             .fillMaxWidth()
                             .aspectRatio(16f / 9f)
@@ -384,6 +376,7 @@ fun MainScreen(viewModel: MainViewModel) {
             }
         }
     }
+}
 
 
 @Composable
