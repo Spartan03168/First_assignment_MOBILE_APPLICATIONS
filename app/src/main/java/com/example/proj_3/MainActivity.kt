@@ -132,7 +132,7 @@ fun MainScreen() {
                             modifier = Modifier.padding(bottom = 4.dp)
                         )
                         Text(
-                            text = "GoPro",
+                            text = "Sony a7 IV",
                             style = TextStyle(
                                 fontSize = 12.sp,
                                 color = Color.White
