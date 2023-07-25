@@ -1,6 +1,6 @@
 package com.example.proj_3
 
-import androidx.lifecycle.viewmodel.compose.viewModel
+
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -14,76 +14,76 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import com.example.proj_3.ui.theme.Proj_3Theme
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.shape.ZeroCornerSize
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.semantics.Role.Companion.Button
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.activity.viewModels
-import androidx.compose.runtime.livedata.observeAsState
-import kotlinx.coroutines.flow.collectAsState
-
-data class UnsplashPhoto(
-    val id: String,
-    val description: String?,
-    val imageUrl: String,
-)
-
-interface UnsplashApiService {
-    @GET("/photos/random")
-    suspend fun getRandomPhoto(
-        @Query("client_id") apiKey: String,
-        @Query("query") query: String? = null
-    ): Response<UnsplashPhoto>
-}
-
+import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.foundation.Image
+import androidx.lifecycle.ViewModelProvider
+import coil.compose.rememberImagePainter
 
 
 class MainActivity : ComponentActivity() {
-    private val viewModel: MainViewModel by viewModels()
+    private lateinit var viewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+
         setContent {
             MainScreen(viewModel)
         }
 
-        // Fetch random photo when the activity is created
         viewModel.getRandomPhoto()
     }
 }
 
-
-
-
-
 @Composable
 fun MainScreen(viewModel: MainViewModel) {
-    val photoDetails = viewModel.photoDetails.collectAsState()
+    val photoDetails by rememberUpdatedState(viewModel.photoDetails.value)
+
     Proj_3Theme {
         Surface(modifier = Modifier.fillMaxSize(), color = Color.Black) {
             Column(
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                // Main Image with Overlay Text
-                photoDetails.value?.let { photo ->
+                photoDetails?.let { photo ->
                     ImageWithOverlayText(
-                        painter = painterResource(id = R.drawable.scifi_wallpaper), // Use default image while API data loads
-                        contentDescription = "The traveller leaving the planet through a portal that formed above the amazon forest",
-                        overlayText = photo.description
-                            ?: "The traveller's ship", // Use the photo's description or fallback text
+                        painter = rememberImagePainter(photo.urls.regular),
+                        contentDescription = photo.description ?: "The traveller leaving the planet through a portal that formed above the amazon forest",
+                        overlayText = photo.description ?: "The travellers ship",
                         modifier = Modifier
                             .fillMaxWidth()
                             .aspectRatio(16f / 9f)
                     )
+                }
                 }
 
                 Row(
@@ -198,23 +198,7 @@ fun MainScreen(viewModel: MainViewModel) {
                             ),
                             modifier = Modifier.padding(bottom = 10.dp)
                         )
-                        Text(
-                            text = "Witnesses",
-                            style = TextStyle(
-                                fontSize = 14.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = Color.White
-                            ),
-                            modifier = Modifier.padding(bottom = 4.dp)
-                        )
-                        Text(
-                            text = "163 minimum",
-                            style = TextStyle(
-                                fontSize = 12.sp,
-                                color = Color.White
-                            ),
-                            modifier = Modifier.padding(bottom = 10.dp)
-                        )
+
                     }
                     Spacer(modifier = Modifier.width(16.dp))
                     Column(modifier = Modifier.weight(1f)) {
@@ -269,23 +253,7 @@ fun MainScreen(viewModel: MainViewModel) {
                             ),
                             modifier = Modifier.padding(bottom = 10.dp)
                         )
-                        Text(
-                            text = "Response",
-                            style = TextStyle(
-                                fontSize = 14.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = Color.White
-                            ),
-                            modifier = Modifier.padding(bottom = 10.dp)
-                        )
-                        Text(
-                            text = "Shoot on sight",
-                            style = TextStyle(
-                                fontSize = 12.sp,
-                                color = Color.White
-                            ),
-                            modifier = Modifier.padding(bottom = 10.dp)
-                        )
+
                     }
                 }
 
@@ -376,7 +344,6 @@ fun MainScreen(viewModel: MainViewModel) {
             }
         }
     }
-}
 
 
 @Composable
@@ -428,6 +395,7 @@ fun ImageWithOverlayText(
         }
     }
     }
+
 
 @Composable
 fun DisplayPictureWithText(imageResId: Int, name: String) {
