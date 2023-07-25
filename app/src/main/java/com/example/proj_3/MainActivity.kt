@@ -428,8 +428,10 @@ fun DisplayPictureWithText(imageResId: Int, name: String) {
 
 @Composable
 fun BubbleTextComponent(text: String) {
+
     Column(
-        modifier = Modifier.padding(8.dp)
+        modifier = Modifier.padding(16.dp)
+
     ) {
         Button(
             onClick = {},

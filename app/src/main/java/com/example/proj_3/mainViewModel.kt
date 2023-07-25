@@ -9,11 +9,11 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.Response
 
-class MainViewModel : ViewModel() {
+class MainViewModel(private val apiService: UnsplashApiService) : ViewModel() {
     private val _photoDetails = MutableLiveData<UnsplashPhotoResponse>()
     val photoDetails: LiveData<UnsplashPhotoResponse> = _photoDetails
 
-    fun getRandomPhoto(apiService: UnsplashApiService) {
+    fun getRandomPhoto() {
         // Replace "YOUR_UNSPLASH_API_KEY" with your actual Unsplash API key
         val apiKey = "ZDT-xxurKeoTFo-Suru4HS7v_Qh0HMv_uMR7GMOGxfQ"
 
