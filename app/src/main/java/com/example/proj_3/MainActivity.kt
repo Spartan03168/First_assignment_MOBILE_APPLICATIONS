@@ -50,16 +50,12 @@ import coil.compose.rememberImagePainter
 
 class MainActivity : ComponentActivity() {
     private lateinit var viewModel: MainViewModel
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-
         setContent {
             MainScreen(viewModel)
         }
-
         viewModel.getRandomPhoto()
     }
 }
