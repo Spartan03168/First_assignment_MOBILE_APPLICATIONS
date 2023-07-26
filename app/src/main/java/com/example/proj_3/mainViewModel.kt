@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.Response
 
-class MainViewModel(
+class mainViewModel(
     private val apiService: UnsplashApiService,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {

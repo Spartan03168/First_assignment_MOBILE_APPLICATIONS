@@ -40,7 +40,7 @@ import kotlinx.coroutines.withContext
 
 
 class MainActivity : ComponentActivity() {
-    private lateinit var viewModel: MainViewModel
+    private lateinit var viewModel: mainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +49,7 @@ class MainActivity : ComponentActivity() {
         val apiService = RetrofitClient.create() // Initialize the apiService using Retrofit
 
         val viewModelFactory = MainViewModelFactory(apiService, this)
-        viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(mainViewModel::class.java)
 
         // 2. Set the content view using Compose
         setContent {
@@ -63,7 +63,7 @@ class MainActivity : ComponentActivity() {
 
 
 @Composable
-fun MainScreen(viewModel: MainViewModel) {
+fun MainScreen(viewModel: mainViewModel) {
     val photoDetails by rememberUpdatedState(viewModel.photoDetails.value)
 
     Proj_3Theme {
@@ -440,29 +440,3 @@ fun BubbleTextComponent(text: String) {
     }
 }
 
-class mainViewModel(private val apiService: UnsplashApiService, handle: SavedStateHandle) : ViewModel() {
-    private val _photoDetails = MutableLiveData<UnsplashPhotoResponse>()
-    val photoDetails: LiveData<UnsplashPhotoResponse> = _photoDetails
-
-    fun getRandomPhoto() {
-        // Replace "YOUR_UNSPLASH_API_KEY" with your actual Unsplash API key
-        val apiKey = "ZDT-xxurKeoTFo-Suru4HS7v_Qh0HMv_uMR7GMOGxfQ"
-
-        // Use the coroutine scope to fetch the data asynchronously
-        viewModelScope.launch {
-            try {
-                val response: Response<UnsplashPhotoResponse> = withContext(Dispatchers.IO) {
-                    apiService.getRandomPhoto(apiKey)
-                }
-                if (response.isSuccessful) {
-                    val photoResponse = response.body()
-                    _photoDetails.value = photoResponse
-                } else {
-                    // Handle error if needed
-                }
-            } catch (e: Exception) {
-                // Handle error if needed
-            }
-        }
-    }
-}
