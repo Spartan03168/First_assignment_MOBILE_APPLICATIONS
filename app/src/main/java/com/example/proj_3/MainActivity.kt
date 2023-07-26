@@ -1,9 +1,8 @@
 package com.example.proj_3
 
 
+import MainViewModelFactory
 import retrofit2.Response
-import retrofit2.http.GET
-import retrofit2.http.Query
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -14,51 +13,54 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import com.example.proj_3.ui.theme.Proj_3Theme
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.shape.ZeroCornerSize
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.semantics.Role.Companion.Button
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberUpdatedState
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.compose.foundation.Image
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import coil.compose.rememberImagePainter
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class MainActivity : ComponentActivity() {
     private lateinit var viewModel: MainViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+
+        // 1. Create the MainViewModelFactory and pass it to the ViewModelProvider
+        val apiService = RetrofitClient.create() // Initialize the apiService using Retrofit
+
+        val viewModelFactory = MainViewModelFactory(apiService, this)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
+
+        // 2. Set the content view using Compose
         setContent {
             MainScreen(viewModel)
         }
+
+        // Call the function to fetch the random photo details from the API
         viewModel.getRandomPhoto()
     }
 }
+
 
 @Composable
 fun MainScreen(viewModel: MainViewModel) {
@@ -80,266 +82,266 @@ fun MainScreen(viewModel: MainViewModel) {
                             .aspectRatio(16f / 9f)
                     )
                 }
-                }
+            }
 
-                Row(
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 15.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    DisplayPictureWithText(
-                        imageResId = R.drawable.mil_scorpion,
-                        name = "Image viewport"
+            Row(
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 15.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                DisplayPictureWithText(
+                    imageResId = R.drawable.mil_scorpion,
+                    name = "Image viewport"
+                )
+
+                Spacer(modifier = Modifier.weight(1f))
+
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    IconButton(
+                        onClick = {},
+                        modifier = Modifier.size(24.dp),
+                        content = {
+                            Image(
+                                painter = painterResource(id = R.drawable.siege_glitch),
+                                contentDescription = "Download",
+                                modifier = Modifier.size(24.dp)
+                            )
+                        }
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    IconButton(
+                        onClick = {},
+                        modifier = Modifier.size(24.dp),
+                        content = {
+                            Image(
+                                painter = painterResource(id = R.drawable.satisfactory_wallpaper),
+                                contentDescription = "Like",
+                                modifier = Modifier.size(24.dp)
+                            )
+                        }
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    IconButton(
+                        onClick = { /* Handle bookmark button click */ },
+                        modifier = Modifier.size(24.dp),
+                        content = {
+                            Image(
+                                painter = painterResource(id = R.drawable.machinegun_fu),
+                                contentDescription = "Bookmark",
+                                modifier = Modifier.size(24.dp)
+                            )
+                        }
+                    )
+                }
+            }
+
+            Spacer(
+                modifier = Modifier
+                    .height(1.dp)
+                    .fillMaxWidth()
+                    .background(Color.DarkGray)
+            )
+
+            Row(
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
+            ) {
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = "Camera",
+                        style = TextStyle(
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.White
+                        ),
+                        modifier = Modifier.padding(bottom = 4.dp)
+                    )
+                    Text(
+                        text = "Sony a7 IV",
+                        style = TextStyle(
+                            fontSize = 12.sp,
+                            color = Color.White
+                        ),
+                        modifier = Modifier.padding(bottom = 10.dp)
+                    )
+                    Text(
+                        text = "Focal Length",
+                        style = TextStyle(
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.White
+                        ),
+                        modifier = Modifier.padding(bottom = 4.dp)
+                    )
+                    Text(
+                        text = "18.0mm",
+                        style = TextStyle(
+                            fontSize = 12.sp,
+                            color = Color.White
+                        ),
+                        modifier = Modifier.padding(bottom = 10.dp)
+                    )
+                    Text(
+                        text = "ISO",
+                        style = TextStyle(
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.White
+                        ),
+                        modifier = Modifier.padding(bottom = 4.dp)
+                    )
+                    Text(
+                        text = "100",
+                        style = TextStyle(
+                            fontSize = 14.sp,
+                            color = Color.White
+                        ),
+                        modifier = Modifier.padding(bottom = 10.dp)
                     )
 
-                    Spacer(modifier = Modifier.weight(1f))
-
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        IconButton(
-                            onClick = {},
-                            modifier = Modifier.size(24.dp),
-                            content = {
-                                Image(
-                                    painter = painterResource(id = R.drawable.siege_glitch),
-                                    contentDescription = "Download",
-                                    modifier = Modifier.size(24.dp)
-                                )
-                            }
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        IconButton(
-                            onClick = {},
-                            modifier = Modifier.size(24.dp),
-                            content = {
-                                Image(
-                                    painter = painterResource(id = R.drawable.satisfactory_wallpaper),
-                                    contentDescription = "Like",
-                                    modifier = Modifier.size(24.dp)
-                                )
-                            }
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        IconButton(
-                            onClick = { /* Handle bookmark button click */ },
-                            modifier = Modifier.size(24.dp),
-                            content = {
-                                Image(
-                                    painter = painterResource(id = R.drawable.machinegun_fu),
-                                    contentDescription = "Bookmark",
-                                    modifier = Modifier.size(24.dp)
-                                )
-                            }
-                        )
-                    }
                 }
+                Spacer(modifier = Modifier.width(16.dp))
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = "Size",
+                        style = TextStyle(
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.White
+                        ),
+                        modifier = Modifier.padding(bottom = 4.dp)
+                    )
+                    Text(
+                        text = "130m long, 45 meters wide",
+                        style = TextStyle(
+                            fontSize = 12.sp,
+                            color = Color.White
+                        ),
+                        modifier = Modifier.padding(bottom = 10.dp)
+                    )
+                    Text(
+                        text = "Event code name",
+                        style = TextStyle(
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.White
+                        ),
+                        modifier = Modifier.padding(bottom = 4.dp)
+                    )
+                    Text(
+                        text = "The traveller",
+                        style = TextStyle(
+                            fontSize = 12.sp,
+                            color = Color.White
+                        ),
+                        modifier = Modifier.padding(bottom = 10.dp)
+                    )
+                    Text(
+                        text = "Threat level",
+                        style = TextStyle(
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.White
+                        ),
+                        modifier = Modifier.padding(bottom = 4.dp)
+                    )
+                    Text(
+                        text = "Keter",
+                        style = TextStyle(
+                            fontSize = 12.sp,
+                            color = Color.White
+                        ),
+                        modifier = Modifier.padding(bottom = 10.dp)
+                    )
 
-                Spacer(
-                    modifier = Modifier
-                        .height(1.dp)
-                        .fillMaxWidth()
-                        .background(Color.DarkGray)
-                )
+                }
+            }
 
-                Row(
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
+            Spacer(
+                modifier = Modifier
+                    .height(1.dp)
+                    .fillMaxWidth()
+                    .background(Color.DarkGray)
+            )
+            Row(
+                modifier = Modifier
+                    .padding(horizontal = 16.dp, vertical = 4.dp)
+            ) {
+                Column(
+                    modifier = Modifier.weight(1f),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Column(modifier = Modifier.weight(1f)) {
-                        Text(
-                            text = "Camera",
-                            style = TextStyle(
-                                fontSize = 14.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = Color.White
-                            ),
-                            modifier = Modifier.padding(bottom = 4.dp)
-                        )
-                        Text(
-                            text = "Sony a7 IV",
-                            style = TextStyle(
-                                fontSize = 12.sp,
-                                color = Color.White
-                            ),
-                            modifier = Modifier.padding(bottom = 10.dp)
-                        )
-                        Text(
-                            text = "Focal Length",
-                            style = TextStyle(
-                                fontSize = 14.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = Color.White
-                            ),
-                            modifier = Modifier.padding(bottom = 4.dp)
-                        )
-                        Text(
-                            text = "18.0mm",
-                            style = TextStyle(
-                                fontSize = 12.sp,
-                                color = Color.White
-                            ),
-                            modifier = Modifier.padding(bottom = 10.dp)
-                        )
-                        Text(
-                            text = "ISO",
-                            style = TextStyle(
-                                fontSize = 12.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = Color.White
-                            ),
-                            modifier = Modifier.padding(bottom = 4.dp)
-                        )
-                        Text(
-                            text = "100",
-                            style = TextStyle(
-                                fontSize = 14.sp,
-                                color = Color.White
-                            ),
-                            modifier = Modifier.padding(bottom = 10.dp)
-                        )
-
-                    }
-                    Spacer(modifier = Modifier.width(16.dp))
-                    Column(modifier = Modifier.weight(1f)) {
-                        Text(
-                            text = "Size",
-                            style = TextStyle(
-                                fontSize = 14.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = Color.White
-                            ),
-                            modifier = Modifier.padding(bottom = 4.dp)
-                        )
-                        Text(
-                            text = "130m long, 45 meters wide",
-                            style = TextStyle(
-                                fontSize = 12.sp,
-                                color = Color.White
-                            ),
-                            modifier = Modifier.padding(bottom = 10.dp)
-                        )
-                        Text(
-                            text = "Event code name",
-                            style = TextStyle(
-                                fontSize = 14.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = Color.White
-                            ),
-                            modifier = Modifier.padding(bottom = 4.dp)
-                        )
-                        Text(
-                            text = "The traveller",
-                            style = TextStyle(
-                                fontSize = 12.sp,
-                                color = Color.White
-                            ),
-                            modifier = Modifier.padding(bottom = 10.dp)
-                        )
-                        Text(
-                            text = "Threat level",
-                            style = TextStyle(
-                                fontSize = 14.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = Color.White
-                            ),
-                            modifier = Modifier.padding(bottom = 4.dp)
-                        )
-                        Text(
-                            text = "Keter",
-                            style = TextStyle(
-                                fontSize = 12.sp,
-                                color = Color.White
-                            ),
-                            modifier = Modifier.padding(bottom = 10.dp)
-                        )
-
-                    }
+                    Text(
+                        text = "Witnesses",
+                        style = TextStyle(
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.White
+                        ),
+                        modifier = Modifier.padding(bottom = 4.dp)
+                    )
+                    Text(
+                        text = "163 minimum",
+                        style = TextStyle(
+                            fontSize = 12.sp,
+                            color = Color.White
+                        ),
+                        modifier = Modifier.padding(bottom = 10.dp)
+                    )
                 }
-
-                Spacer(
-                    modifier = Modifier
-                        .height(1.dp)
-                        .fillMaxWidth()
-                        .background(Color.DarkGray)
-                )
-                Row(
-                    modifier = Modifier
-                        .padding(horizontal = 16.dp, vertical = 4.dp)
+                Column(
+                    modifier = Modifier.weight(1f),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Column(
-                        modifier = Modifier.weight(1f),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Text(
-                            text = "Witnesses",
-                            style = TextStyle(
-                                fontSize = 15.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = Color.White
-                            ),
-                            modifier = Modifier.padding(bottom = 4.dp)
-                        )
-                        Text(
-                            text = "163 minimum",
-                            style = TextStyle(
-                                fontSize = 12.sp,
-                                color = Color.White
-                            ),
-                            modifier = Modifier.padding(bottom = 10.dp)
-                        )
-                    }
-                    Column(
-                        modifier = Modifier.weight(1f),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Text(
-                            text = "Teams assigned",
-                            style = TextStyle(
-                                fontSize = 15.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = Color.White
-                            ),
-                            modifier = Modifier.padding(bottom = 4.dp)
-                        )
-                        Text(
-                            text = "6",
-                            style = TextStyle(
-                                fontSize = 12.sp,
-                                color = Color.White
-                            ),
-                            modifier = Modifier.padding(bottom = 10.dp)
-                        )
-                    }
-                    Column(
-                        modifier = Modifier.weight(1f),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Text(
-                            text = "Response",
-                            style = TextStyle(
-                                fontSize = 15.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = Color.White
-                            ),
-                            modifier = Modifier.padding(bottom = 4.dp)
-                        )
-                        Text(
-                            text = "Shoot on site.",
-                            style = TextStyle(
-                                fontSize = 12.sp,
-                                color = Color.White
-                            ),
-                            modifier = Modifier.padding(bottom = 10.dp)
-                        )
-                    }
+                    Text(
+                        text = "Teams assigned",
+                        style = TextStyle(
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.White
+                        ),
+                        modifier = Modifier.padding(bottom = 4.dp)
+                    )
+                    Text(
+                        text = "6",
+                        style = TextStyle(
+                            fontSize = 12.sp,
+                            color = Color.White
+                        ),
+                        modifier = Modifier.padding(bottom = 10.dp)
+                    )
                 }
-                // Bubble Text Component at the bottom
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Center
+                Column(
+                    modifier = Modifier.weight(1f),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    BubbleTextComponent(text = "keter")
+                    Text(
+                        text = "Response",
+                        style = TextStyle(
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.White
+                        ),
+                        modifier = Modifier.padding(bottom = 4.dp)
+                    )
+                    Text(
+                        text = "Shoot on site.",
+                        style = TextStyle(
+                            fontSize = 12.sp,
+                            color = Color.White
+                        ),
+                        modifier = Modifier.padding(bottom = 10.dp)
+                    )
                 }
+            }
+            // Bubble Text Component at the bottom
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                BubbleTextComponent(text = "keter")
             }
         }
     }
+}
 
 
 @Composable
@@ -390,7 +392,7 @@ fun ImageWithOverlayText(
             }
         }
     }
-    }
+}
 
 
 @Composable
@@ -434,6 +436,33 @@ fun BubbleTextComponent(text: String) {
             shape = RoundedCornerShape(20.dp)
         ) {
             Text(text = text)
+        }
+    }
+}
+
+class mainViewModel(private val apiService: UnsplashApiService, handle: SavedStateHandle) : ViewModel() {
+    private val _photoDetails = MutableLiveData<UnsplashPhotoResponse>()
+    val photoDetails: LiveData<UnsplashPhotoResponse> = _photoDetails
+
+    fun getRandomPhoto() {
+        // Replace "YOUR_UNSPLASH_API_KEY" with your actual Unsplash API key
+        val apiKey = "ZDT-xxurKeoTFo-Suru4HS7v_Qh0HMv_uMR7GMOGxfQ"
+
+        // Use the coroutine scope to fetch the data asynchronously
+        viewModelScope.launch {
+            try {
+                val response: Response<UnsplashPhotoResponse> = withContext(Dispatchers.IO) {
+                    apiService.getRandomPhoto(apiKey)
+                }
+                if (response.isSuccessful) {
+                    val photoResponse = response.body()
+                    _photoDetails.value = photoResponse
+                } else {
+                    // Handle error if needed
+                }
+            } catch (e: Exception) {
+                // Handle error if needed
+            }
         }
     }
 }

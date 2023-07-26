@@ -2,6 +2,7 @@ package com.example.proj_3
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -10,9 +11,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.Response
 
-
-
-class MainViewModel(private val apiService: UnsplashApiService) : ViewModel() {
+class MainViewModel(
+    private val apiService: UnsplashApiService,
+    private val savedStateHandle: SavedStateHandle
+) : ViewModel() {
     private val _photoDetails = MutableLiveData<UnsplashPhotoResponse>()
     val photoDetails: LiveData<UnsplashPhotoResponse> = _photoDetails
 

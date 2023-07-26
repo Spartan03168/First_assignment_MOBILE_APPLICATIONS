@@ -1,14 +1,22 @@
-package com.example.proj_3
-
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.CreationExtras
+import androidx.savedstate.SavedStateRegistryOwner
+import com.example.proj_3.mainViewModel
+import com.example.proj_3.UnsplashApiService
 
-class MainViewModelFactory(private val apiService: UnsplashApiService) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T {
-        if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
+class MainViewModelFactory(
+    private val apiService: UnsplashApiService,
+    owner: SavedStateRegistryOwner
+) : AbstractSavedStateViewModelFactory(owner, /*default args*/ null) {
+    override fun <T : ViewModel> create(
+        key: String,
+        modelClass: Class<T>,
+        handle: SavedStateHandle
+    ): T {
+        if (modelClass.isAssignableFrom(mainViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return MainViewModel(apiService) as T
+            return mainViewModel(apiService, handle) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }
